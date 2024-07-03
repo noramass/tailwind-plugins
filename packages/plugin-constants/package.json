@@ -1,0 +1,32 @@
+{
+  "name": "@windwards/plugin-constants",
+  "description": "Define typescript constants from your tailwind theme configuration",
+  "version": "0.0.0",
+  "author": "Norabelle Reichwald <nora@reichwald.me>",
+  "license": "MIT",
+  "keywords": [
+    "tailwind",
+    "plugin"
+  ],
+  "since": 2024,
+
+  "scripts": {
+    "build": "tsup",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
+  },
+
+  "exports": [{
+    "node": "./",
+    "import": "./dist/constants.mjs",
+    "require": "./dist/constants.js",
+    "types": "./dist/constants.d.ts",
+    "entry": "./src/index.ts"
+  }],
+
+  "dependencies": {
+    "tailwindcss": "*"
+  }
+
+}
