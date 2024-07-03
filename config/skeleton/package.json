@@ -1,0 +1,29 @@
+{
+  "name": "@windwards/skeleton",
+  "description": "",
+  "version": "0.0.0",
+  "author": "Norabelle Reichwald <nora@reichwald.me>",
+  "license": "MIT",
+  "keywords": ["tailwind", "plugin"],
+  "since": 2024,
+
+  "scripts": {
+    "build": "tsup",
+    "test": "jest --passWithNoTests",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts --fix"
+  },
+
+  "exports": [{
+    "node": "./",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "entry": "./src/index.ts"
+  }],
+
+  "dependencies": {
+    "tailwindcss": "*"
+  }
+
+}

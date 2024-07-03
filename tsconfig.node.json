@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "jest"]
+  },
+  "include": [
+    "package.json",
+    "eslint.config.mjs",
+    "config/**/*",
+    "packages/*/package.json",
+    "packages/*/src/**/*",
+    "packages/*/test/**/*",
+    "packages/*/jest.config.mjs",
+    "packages/*/tsup.config.ts",
+  ]
+}
