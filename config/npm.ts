@@ -46,7 +46,7 @@ export function packageExports(pkg: PackageJson): ExportDef[] {
 }
 
 export function packageEntryPoints(pkg: PackageJson): [target: string, entry: string][] {
-  return packageExports(pkg).map((exports) => {
+  return packageExports(pkg).map(exports => {
     const target = exports.types.replace(".d.ts", "");
     const entry = exports.entry ?? target.replace("./dist", "./src") + ".ts";
     return [target.replace("./dist/", ""), entry];
@@ -55,9 +55,9 @@ export function packageEntryPoints(pkg: PackageJson): [target: string, entry: st
 
 export function packageBanner(pkg: PackageMeta): string {
   const lines = [pkg.name, pkg.description, `© ${dateRange(pkg.since)} ${pkg.author}`, `@license ${pkg.license}`]
-    .filter((it) => it)
+    .filter(it => it)
     .map(String);
-  return `/**!${lines.map((line) => `\n * ${line}`).join("")}\n */`;
+  return `/**!${lines.map(line => `\n * ${line}`).join("")}\n */`;
 }
 
 function dateRange(since: number) {
