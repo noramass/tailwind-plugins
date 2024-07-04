@@ -52,7 +52,7 @@ The `amount` is any value from tailwind spacing or your own (use bracket syntax)
 <div class="bg-rose-500 h-24 w-24 mask mask-t-12"></div>
 
 <!-- Masking the top and bottom -->
-<div class="bg-rose-500 h-24 w-24 mask mask-x-12"></div>
+<div class="bg-rose-500 h-24 w-24 mask mask-y-12"></div>
 
 <!-- Masking the top left -->
 <div class="bg-rose-500 h-24 w-24 mask mask-tl-1/2"></div>
