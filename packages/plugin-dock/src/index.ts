@@ -1,29 +1,30 @@
 import plugin from "tailwindcss/plugin";
 
-type DockRules = { [Key in "top" | "left" | "right" | "bottom"]?: string } & { position: "absolute" };
+type Direction = "left" | "right" | "top" | "bottom";
+type DockRules = { [Key in Direction]?: string } & { position: "absolute" };
 
 export function index(): ReturnType<typeof plugin> {
-  return plugin(({ addUtilities, theme }) => {
-    function docks([spacing, value]: [spacing: string, value: string]) {
-      return Object.fromEntries(
-        ["t", "b", "l", "r", "tl", "tr", "bl", "br", "x", "y", "full"].map((dir) => {
-          const rules: DockRules = { position: "absolute" };
+  function docks(...directions: Direction[]): (value: string) => DockRules {
+    return value => {
+      const rules: DockRules = { position: "absolute" };
+      for (const dir of directions) rules[dir] = value;
+      return rules;
+    };
+  }
 
-          if (dir.includes("t") || dir.includes("y")) rules.top = value;
-          if (dir.includes("b") || dir.includes("y")) rules.bottom = value;
-          if (dir.includes("l") || dir.includes("x")) rules.left = value;
-          if (dir.includes("r") || dir.includes("x")) rules.right = value;
-          if (dir === "full") rules.top = rules.bottom = rules.left = rules.right = value;
-
-          return [`.dock-${dir}${spacing === "0" ? "" : `-${spacing}`}`, rules];
-        }),
-      );
-    }
-
-    addUtilities(
-      Object.entries(theme("spacing")!)
-        .map(docks)
-        .reduce((a, b) => Object.assign(a, b), {}),
-    );
+  return plugin(({ matchUtilities, theme }) => {
+    matchUtilities({
+      "dock-t": docks("top"),
+      "dock-b": docks("bottom"),
+      "dock-l": docks("left"),
+      "dock-r": docks("right"),
+      "dock-tl": docks("top", "left"),
+      "dock-tr": docks("top", "right"),
+      "dock-bl": docks("bottom", "left"),
+      "dock-br": docks("bottom", "right"),
+      "dock-x": docks("left", "right"),
+      "dock-y": docks("top", "bottom"),
+      dock: docks("top", "left", "bottom", "right"),
+    }, { values: theme("spacing") });
   });
 }
