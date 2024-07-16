@@ -24,25 +24,29 @@ interface PackageLegacyExportFields {
 }
 
 interface PackageExportFields {
-  exports?: ExportDef | ExportDef[];
+  exports?: ExportDef | ExportDef[] | Record<string, Omit<ExportDef, "node">>;
 }
 
 export type PackageJson = PackageMeta &
   (PackageLegacyExportFields | PackageExportFields) &
   Partial<PackageExportFields & PackageLegacyExportFields>;
 
-const arr = <T>(arr: T): T extends any[] ? T : T[] => (Array.isArray(arr) ? arr : [arr]);
-
 export function packageExports(pkg: PackageJson): ExportDef[] {
-  return arr(
-    pkg.exports ?? {
-      node: "./",
-      import: pkg.module!,
-      require: pkg.main!,
-      types: pkg.types!,
-      entry: pkg.entry,
-    },
-  );
+  if (typeof pkg.exports !== "object")
+    return [
+      {
+        node: "./",
+        import: pkg.module!,
+        require: pkg.main!,
+        types: pkg.types!,
+        entry: pkg.entry,
+      },
+    ];
+
+  if (Array.isArray(pkg.exports)) return pkg.exports;
+  if ("node" in pkg.exports) return [pkg.exports];
+
+  return Object.entries(pkg.exports).map(([node, otherFields]) => ({ node, ...otherFields }));
 }
 
 export function packageEntryPoints(pkg: PackageJson): [target: string, entry: string][] {
