@@ -14,16 +14,11 @@ function remove(arr, element) {
   if (index !== -1) arr.splice(index, 1);
 }
 
-async function importJson(file) {
-  return JSON.parse(await fs.readFile(file, "utf-8"));
-}
-
 (async () => {
   const skeletonFiles = await fs.readdir("config/skeleton");
 
   remove(skeletonFiles, "package.json");
-  const rootPkgJson = await importJson("package.json");
-  const skeletonPkgJson = await importJson("config/skeleton/package.json");
+  const skeletonPkgJson = await fs.readFile("config/skeleton/package.json", "utf-8");
 
   for (const pkg of await fs.readdir("packages")) {
     const dir = path.resolve("packages", pkg);
@@ -36,9 +31,8 @@ async function importJson(file) {
     }
 
     if (!(await fileExists(json))) {
-      const content = { ...skeletonPkgJson };
-      content.name = content.name.replace("skeleton", pkg);
-      await fs.writeFile(json, JSON.stringify(content, null, 2));
+      const content = skeletonPkgJson.replaceAll("skeleton", pkg);
+      await fs.writeFile(json, content, "utf-8");
     }
   }
 })();
