@@ -4,10 +4,7 @@
   "version": "0.0.0",
   "author": "Norabelle Reichwald <nora@reichwald.me>",
   "license": "MIT",
-  "keywords": [
-    "tailwind",
-    "plugin"
-  ],
+  "keywords": ["tailwind", "plugin"],
   "since": 2024,
 
   "scripts": {
@@ -27,6 +24,9 @@
 
   "dependencies": {
     "tailwindcss": "*"
-  }
+  },
 
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -10,8 +10,8 @@
   "scripts": {
     "build": "tsup",
     "test": "jest --passWithNoTests",
-    "lint": "eslint --ext .ts .",
-    "lint:fix": "eslint --ext .ts --fix"
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
 
   "exports": [{
@@ -24,6 +24,9 @@
 
   "dependencies": {
     "tailwindcss": "*"
-  }
+  },
 
+  "publishConfig": {
+    "access": "public"
+  }
 }
