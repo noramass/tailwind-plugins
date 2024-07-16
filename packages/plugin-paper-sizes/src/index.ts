@@ -19,7 +19,7 @@ export function paper(sizes: PaperSizes): ReturnType<typeof plugin> {
   const widths = { ...portraitWidths, ...landscapeWidths };
   const heights = { ...portraitHeights, ...landscapeHeights };
 
-  return plugin(({ theme, addUtilities }) => {
+  return plugin(({ addUtilities }) => {
     for (const [size, value] of Object.entries(widths)) {
       addUtilities({
         [`.w-${size}`]: { width: value },
