@@ -4,7 +4,7 @@ type Direction = "left" | "right" | "top" | "bottom";
 type CssVarKey = `--tw-mask-${Direction}`;
 type MaskVars = Partial<Record<CssVarKey, string>>;
 
-export function mask() {
+export function mask(): ReturnType<typeof plugin> {
   const directions: Direction[] = ["left", "right", "top", "bottom"];
   const opposites: Record<Direction, Direction> = { top: "bottom", bottom: "top", left: "right", right: "left" };
 
