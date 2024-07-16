@@ -3,7 +3,7 @@ import plugin from "tailwindcss/plugin";
 type Direction = "left" | "right" | "top" | "bottom";
 type DockRules = { [Key in Direction]?: string } & { position: "absolute" };
 
-export function index(): ReturnType<typeof plugin> {
+export function dock(): ReturnType<typeof plugin> {
   function docks(...directions: Direction[]): (value: string) => DockRules {
     return value => {
       const rules: DockRules = { position: "absolute" };
