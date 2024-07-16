@@ -13,18 +13,21 @@ export function index(): ReturnType<typeof plugin> {
   }
 
   return plugin(({ matchUtilities, theme }) => {
-    matchUtilities({
-      "dock-t": docks("top"),
-      "dock-b": docks("bottom"),
-      "dock-l": docks("left"),
-      "dock-r": docks("right"),
-      "dock-tl": docks("top", "left"),
-      "dock-tr": docks("top", "right"),
-      "dock-bl": docks("bottom", "left"),
-      "dock-br": docks("bottom", "right"),
-      "dock-x": docks("left", "right"),
-      "dock-y": docks("top", "bottom"),
-      dock: docks("top", "left", "bottom", "right"),
-    }, { values: theme("spacing") });
+    matchUtilities(
+      {
+        "dock-t": docks("top"),
+        "dock-b": docks("bottom"),
+        "dock-l": docks("left"),
+        "dock-r": docks("right"),
+        "dock-tl": docks("top", "left"),
+        "dock-tr": docks("top", "right"),
+        "dock-bl": docks("bottom", "left"),
+        "dock-br": docks("bottom", "right"),
+        "dock-x": docks("left", "right"),
+        "dock-y": docks("top", "bottom"),
+        dock: docks("top", "left", "bottom", "right"),
+      },
+      { values: theme("spacing") },
+    );
   });
 }
