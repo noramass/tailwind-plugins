@@ -15,7 +15,7 @@
     "packages:test": "pnpm -r test",
     "packages:lint": "pnpm eslint",
     "packages:lint:fix": "pnpm eslint --fix",
-    "packages:release": "pnpm -r --workspace-concurrency=1 exec -- pnpx --no-install semantic-release -e semantic-release-monorepo",
+    "packages:release": "pnpm -r --workspace-concurrency=1 exec -- npx --no-install semantic-release -e semantic-release-monorepo",
     "packages:prepare": "node config/prepare-modules.mjs && pnpm install"
   },
 
