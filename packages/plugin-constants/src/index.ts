@@ -1,5 +1,5 @@
 import * as fs from "node:fs/promises";
-import * as path from "node:path";
+import { dirname, resolve } from "node:path";
 import plugin from "tailwindcss/plugin";
 
 const exported = (def: string) => `export ${def}`;
@@ -7,6 +7,24 @@ const constant = (name: string, def: string) => `const ${name} = ${def};`;
 const type = (name: string, def: string) => `type ${name} = ${def};`;
 const union = (values: any[]) => values.join(" | ");
 const json = (value: any) => JSON.stringify(value, null, 2);
+
+function fileExists(path: string) {
+  return fs
+    .stat(path)
+    .then(stat => stat.isFile())
+    .catch(() => false);
+}
+
+async function fileContentEquals(path: string, content: string) {
+  return content === (await fs.readFile(path, "utf-8"));
+}
+
+async function persistChanges(path: string, content: string) {
+  if ((await fileExists(path)) && (await fileContentEquals(path, content))) return false;
+  await fs.mkdir(dirname(path), { recursive: true });
+  await fs.writeFile(path, content, "utf-8");
+  return true;
+}
 
 export function constants(filename: string): ReturnType<typeof plugin> {
   return plugin(({ config }) => {
@@ -20,7 +38,11 @@ export function constants(filename: string): ReturnType<typeof plugin> {
       exported(constant("Breakpoints", json(breakpoints))),
     ];
 
-    fs.writeFile(path.resolve(filename), defs.join("\n"), "utf-8")
+    /*
+     * Only persist changes if necessary, because changes might trigger a rebuild in vite and other bundlers,
+     * which could cause a loop.
+     */
+    persistChanges(resolve(filename), defs.join("\n"))
       // eslint-disable-next-line no-console
       .then(() => console.log(`[tailwind] Types generated at ${filename}`))
       // eslint-disable-next-line no-console
